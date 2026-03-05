@@ -9,11 +9,15 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import LogoutPopup from '../popups/LogoutPopup'
+import { useAppDispatch } from '../../redux/hooks'
+import { removeProfileAC } from '../../redux/profileSlice'
 
 const IconsMenu = () => {
   const [showSearchBox, setShowSearchBox] = useState(false)
   const [isLogoutPopupVisible, setIsLogoutPopupVisible] = useState(false)
+
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   const searchBoxRef = useRef<HTMLDivElement | null>(null)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
@@ -47,6 +51,8 @@ const IconsMenu = () => {
 
   const onLogout = () => {
     localStorage.removeItem('online-store-token')
+    localStorage.removeItem('user-role')
+    dispatch(removeProfileAC())
     navigate('/login')
   }
 

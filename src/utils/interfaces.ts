@@ -33,6 +33,7 @@ export interface IProduct {
 export interface IUser {
   id?: number;
   email: string;
+  password?: string;
   fullName: string | null;
   role: UserRole;
   resetToken?: string | null;

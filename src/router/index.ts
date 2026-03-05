@@ -31,7 +31,7 @@ const authLoader = () => {
 
 const adminLoader = () => {
   const token = localStorage.getItem("online-store-token");
-  const userRole = localStorage.getItem("user-role"); // todo: get user role from API or context
+  const userRole = localStorage.getItem("user-role");
 
   if (!token) {
     throw redirect("/login");
