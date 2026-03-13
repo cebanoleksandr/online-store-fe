@@ -28,6 +28,7 @@ export interface IProduct {
   imageUrl: string | null;
   category: string;
   createdAt: Date;
+  isFavorite: boolean;
 }
 
 export interface IProductFilters {
@@ -52,4 +53,9 @@ export interface ICartItem {
   quantity: number;
   user: IUser;
   product: IProduct;
+}
+
+export interface AddToCartDto {
+  productId: number;
+  quantity: number;
 }
