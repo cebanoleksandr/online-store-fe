@@ -11,7 +11,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="w-full border-b border-gray-200 font-sans bg-white">
+    <header className="fixed top-0 right-0 left-0 z-10 w-full border-b border-gray-200 font-sans bg-white">
       {/* 1. Top Bar */}
       <div className="border-b border-gray-100 py-2 px-4 md:px-12 flex justify-between items-center text-[11px] uppercase tracking-wider text-gray-500">
         <div className="flex items-center gap-6">

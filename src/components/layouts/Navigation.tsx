@@ -1,4 +1,8 @@
+import { useMemo } from "react";
+
 const Navigation = () => {
+  const role = useMemo(() => localStorage.getItem('user-role'), [localStorage.getItem('online-store-token')])
+
   return (
     <nav className="hidden lg:flex gap-6">
       <a href="/about" className="hover:text-black transition-colors">Про нас</a>
@@ -6,6 +10,9 @@ const Navigation = () => {
       <a href="/delivery-and-payment" className="hover:text-black transition-colors">Доставка та оплата</a>
       <a href="/exchange-and-return" className="hover:text-black transition-colors">Обмін та повернення</a>
       <a href="/blog" className="hover:text-black transition-colors">Блог</a>
+      {role === 'admin' && (
+        <a href="/admin" className="hover:text-black transition-colors">Адмiн панель</a>
+      )}
     </nav>
   )
 }

@@ -1,8 +1,10 @@
-import type { ICreateProduct, IUpdateProduct, IProduct } from "../utils/interfaces";
+import type { ICreateProduct, IUpdateProduct, IProduct, IProductFilters } from "../utils/interfaces";
 import { http, httpPrivate } from "./index";
 
-export const getProducts = async (): Promise<IProduct[]> => {
-  const response = await http.get('/api/products');
+export const getProducts = async (filters?: IProductFilters): Promise<IProduct[]> => {
+  const response = await http.get('/api/products', {
+    params: filters, 
+  });
   return response.data;
 };
 

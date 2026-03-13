@@ -30,6 +30,11 @@ export interface IProduct {
   createdAt: Date;
 }
 
+export interface IProductFilters {
+  category?: string;
+  rating?: number;
+}
+
 export interface IUser {
   id?: number;
   email: string;
