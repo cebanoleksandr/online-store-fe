@@ -6,6 +6,7 @@ import {
 import IconsMenu from './IconsMenu';
 import Filters from './Filters';
 import Navigation from './Navigation';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,9 +37,9 @@ const Header = () => {
 
         {/* Logo */}
         <div className="flex-1 flex justify-center lg:justify-start">
-          <a href="/" className="text-3xl font-bold tracking-[0.2em] text-black">
+          <Link to="/" className="text-3xl font-bold tracking-[0.2em] text-black">
             LOGO
-          </a>
+          </Link>
         </div>
 
         <IconsMenu />

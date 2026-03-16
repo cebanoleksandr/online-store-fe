@@ -29,9 +29,15 @@ const LoginPage = () => {
     setIsLoggingIn(true);
     try {
       const data = await login(values.email, values.password);
+
       localStorage.setItem('online-store-token', data.access_token);
-      // todo: get user
+      localStorage.setItem('user-role', data.user.role);
+
       onSubmitProps.resetForm();
+
+      const event = new Event('authChange');
+      window.dispatchEvent(event);
+
       navigate('/');
     } catch (error) {
       console.error('Login failed: ', error);

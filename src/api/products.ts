@@ -2,7 +2,7 @@ import type { ICreateProduct, IUpdateProduct, IProduct, IProductFilters } from "
 import { http, httpPrivate } from "./index";
 
 export const getProducts = async (filters?: IProductFilters): Promise<IProduct[]> => {
-  const response = await http.get('/api/products', {
+  const response = await httpPrivate.get('/api/products', {
     params: filters, 
   });
   return response.data;

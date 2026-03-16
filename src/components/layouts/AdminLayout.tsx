@@ -5,6 +5,8 @@ import { getUserProfile } from '../../api/users';
 import { useAppDispatch } from '../../redux/hooks';
 import { setProfileAC } from '../../redux/profileSlice';
 import { setAlertAC } from '../../redux/alertSlice';
+import { getMyCart } from '../../api/cart';
+import { setCartAC } from '../../redux/cartSlice';
 
 interface IProps {
   children: ReactNode;
@@ -23,9 +25,15 @@ const AdminLayout: FC<IProps> = ({ children }) => {
     }
   }
 
+  const getCartItems = async () => {
+    const response = await getMyCart();
+    dispatch(setCartAC(response));
+  }
+
   useEffect(() => {
     if (localStorage.getItem('online-store-token')) {
       getUser()
+      getCartItems()
     }
   }, [localStorage.getItem('online-store-token')])
 

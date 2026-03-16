@@ -9,23 +9,37 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import LogoutPopup from '../popups/LogoutPopup'
-import { useAppDispatch } from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { removeProfileAC } from '../../redux/profileSlice'
 
 const IconsMenu = () => {
-  const [showSearchBox, setShowSearchBox] = useState(false)
-  const [isLogoutPopupVisible, setIsLogoutPopupVisible] = useState(false)
+  const [showSearchBox, setShowSearchBox] = useState(false);
+  const [isLogoutPopupVisible, setIsLogoutPopupVisible] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('online-store-token'));
 
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
+  const productsCount = useAppSelector(state => state.cart.items.length);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const searchBoxRef = useRef<HTMLDivElement | null>(null)
-  const buttonRef = useRef<HTMLButtonElement | null>(null)
+  const searchBoxRef = useRef<HTMLDivElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-  const isAuthenticated = useMemo(() => {
-    const token = localStorage.getItem('online-store-token')
-    return !!token
-  }, [localStorage.getItem('online-store-token')])
+  useEffect(() => {
+    const handleAuth = () => {
+      setIsAuthenticated(!!localStorage.getItem('online-store-token'));
+    };
+
+    window.addEventListener('authChange', handleAuth);
+    window.addEventListener('storage', handleAuth);
+    return () => {
+      window.removeEventListener('authChange', handleAuth);
+      window.removeEventListener('storage', handleAuth);
+    };
+  }, []);
+
+  const count = useMemo(() => {
+    return productsCount < 10 ? productsCount : '9+'
+  }, [productsCount])
 
   // 👉 click outside
   useEffect(() => {
@@ -67,7 +81,7 @@ const IconsMenu = () => {
         <MagnifyingGlassIcon className="w-6 h-6 stroke-[1.5]" />
       </button>
 
-      <button className="p-1 hover:text-gray-500 transition-colors cursor-pointer">
+      <button className="p-1 hover:text-gray-500 transition-colors cursor-pointer" onClick={() => navigate('/favorites')}>
         <HeartIcon className="w-6 h-6 stroke-[1.5]" />
       </button>
 
@@ -83,9 +97,11 @@ const IconsMenu = () => {
         onClick={() => navigate('/cart')}
       >
         <ShoppingBagIcon className="w-6 h-6 stroke-[1.5]" />
-        <span className="absolute top-0 right-0 bg-black text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
-          0
-        </span>
+        {!!productsCount && (
+          <span className="absolute top-0 right-0 bg-black text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+            {count}
+          </span>
+        )}
       </button>
 
       {isAuthenticated && (

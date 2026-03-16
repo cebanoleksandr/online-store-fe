@@ -17,14 +17,18 @@ const HomePage = () => {
   const dispatch = useAppDispatch();
 
   const fetchProducts = async () => {
+    const filters: IProductFilters = {
+      category: activeTab === 'Новинки' ? 'New items' : activeTab === 'Знижки' ? 'Discounts' : 'Top sellers'
+    }
+
+    const response = await getProducts(filters)
+    setProducts(response)
+  }
+
+  const loadData = async () => {
     setIsLoading(true)
     try {
-      const filters: IProductFilters = {
-        category: activeTab === 'Новинки' ? 'New items' : activeTab === 'Знижки' ? 'Discounts' : 'Top sellers'
-      }
-
-      const response = await getProducts(filters)
-      setProducts(response)
+      await fetchProducts()
     } catch (error) {
       dispatch(setAlertAC({ mode: 'error', text: 'Something went wrong with fetching products' }))
     } finally {
@@ -33,8 +37,16 @@ const HomePage = () => {
   }
 
   useEffect(() => {
-    fetchProducts();
+    loadData();
   }, [activeTab]);
+
+  const handleLocalUpdate = (productId: number) => {
+    setProducts(currentProducts => 
+      currentProducts.map(p => 
+        p.id === productId ? { ...p, isFavorite: !p.isFavorite } : p
+      )
+    );
+  };
 
   return (
     <MainLayout>
@@ -47,15 +59,27 @@ const HomePage = () => {
           className="flex justify-center"
         >
           <Tab name='Новинки'>
-            <ProductList products={products} isLoading={isLoading} />
+            <ProductList 
+              products={products} 
+              isLoading={isLoading} 
+              onToggleFavorite={handleLocalUpdate} 
+            />
           </Tab>
 
           <Tab name='Знижки'>
-            <ProductList products={products} isLoading={isLoading} /> 
+            <ProductList 
+              products={products} 
+              isLoading={isLoading} 
+              onToggleFavorite={handleLocalUpdate} 
+            /> 
           </Tab>
 
           <Tab name='Топ продажу'>
-            <ProductList products={products} isLoading={isLoading} />
+            <ProductList 
+              products={products} 
+              isLoading={isLoading} 
+              onToggleFavorite={handleLocalUpdate} 
+            />
           </Tab>
         </Tabs>
       </div>

@@ -16,6 +16,7 @@ import Reviews from "../pages/Reviews";
 import DeliveryAndPaymentPage from "../pages/DeliveryAndPaymentPage";
 import ExchangeAndReturnPage from "../pages/ExchangeAndReturnPage";
 import BlogPage from "../pages/BlogPage";
+import FavoritesPage from "../pages/FavoritesPage";
 
 const loader = () => {
   const token = localStorage.getItem("online-store-token");
@@ -61,6 +62,7 @@ export const routes: RouteObject[] = [
       { path: '/search', Component: SearchPage, loader },
       { path: '/about', Component: About, loader },
       { path: '/reviews', Component: Reviews, loader },
+      { path: '/favorites', Component: FavoritesPage, loader },
       { path: '/delivery-and-payment', Component: DeliveryAndPaymentPage, loader },
       { path: '/exchange-and-return', Component: ExchangeAndReturnPage, loader },
       { path: '/blog', Component: BlogPage, loader },
